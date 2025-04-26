@@ -1,0 +1,19 @@
+{
+    "name": "web-perf-analyzer",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+        "client": "cd client && npm run dev",
+        "server": "cd server && node index.js",
+        "dev": "concurrently \"npm run client\" \"npm run server\"",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "devDependencies": {
+        "concurrently": "^9.1.2"
+    }
+}
