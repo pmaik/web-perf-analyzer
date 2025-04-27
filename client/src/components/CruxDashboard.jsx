@@ -35,13 +35,27 @@ const CruxDashboard = () => {
 
             <URLInput onSearch={handleFetch} isLoading={isLoading} />
 
-            {error ? (
-                <Alert severity="error" sx={{ marginTop: 2 }}>
-                    Failed to fetch data: {error.message}
-                </Alert>
-            ) : (
-                <PerformanceTable isLoading={isLoading} data={tableData} />
-            )}
+            <Box
+                sx={{
+                    border: "1px solid gray",
+                    borderRadius: "4px",
+                    padding: "20px",
+                    minWidth: "90%",
+                    minHeight: "400px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: "#E8E8E8",
+                }}
+            >
+                {error ? (
+                    <Alert severity="error" sx={{ marginTop: 2 }}>
+                        Failed to fetch data: {error.message}
+                    </Alert>
+                ) : (
+                    <PerformanceTable isLoading={isLoading} data={tableData} />
+                )}
+            </Box>
         </Box>
     );
 };

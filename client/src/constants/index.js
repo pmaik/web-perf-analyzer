@@ -2,6 +2,8 @@ export const API = "api";
 export const REACT_APP_API_BASE_URL = "http://localhost:3000/api";
 export const PERFORMANCE = "performance";
 export const PERCENTILES = "percentiles";
+export const AVERAGE = "average";
+export const SUM = "sum";
 
 export const ITNP = "interaction_to_next_paint";
 export const LCP = "largest_contentful_paint";

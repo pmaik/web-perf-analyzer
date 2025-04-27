@@ -18,6 +18,18 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
         backgroundColor: theme.palette.common.black,
         color: theme.palette.common.white,
     },
+    [`& .MuiTableSortLabel-root`]: {
+        color: theme.palette.common.white,
+        "&:hover": {
+            color: theme.palette.common.white,
+        },
+        "&.Mui-active": {
+            color: theme.palette.common.white,
+        },
+        "&.Mui-active:hover": {
+            color: theme.palette.common.white,
+        },
+    },
     [`&.${tableCellClasses.body}`]: {
         fontSize: 14,
     },

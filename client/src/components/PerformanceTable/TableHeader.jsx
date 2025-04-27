@@ -1,8 +1,13 @@
 import React from "react";
-import { TableHead, TableRow, TableCell } from "@mui/material";
+import { Box, TableHead, TableRow, TableSortLabel } from "@mui/material";
+import { visuallyHidden } from "@mui/utils";
 import { StyledTableCell } from "./styled";
 
-const TableHeader = ({ tableHeaders }) => {
+const TableHeader = ({ tableHeaders, order, orderBy, onRequestSort }) => {
+    const createSortHandler = (property) => {
+        onRequestSort(property);
+    };
+
     return (
         <TableHead>
             <TableRow>
@@ -15,9 +20,22 @@ const TableHeader = ({ tableHeaders }) => {
                     <StyledTableCell
                         key={column.name}
                         align={column.align}
-                        // style={{ top: 57, minWidth: column.minWidth }}
+                        sortDirection={orderBy === column.name ? order : false}
                     >
-                        {column.label}
+                        <TableSortLabel
+                            active={orderBy === column.name}
+                            direction={orderBy === column.name ? order : ""}
+                            onClick={() => createSortHandler(column.name)}
+                        >
+                            {column.label}
+                            {orderBy === column.name ? (
+                                <Box component="span" sx={visuallyHidden}>
+                                    {order === "desc"
+                                        ? "sorted descending"
+                                        : "sorted ascending"}
+                                </Box>
+                            ) : null}
+                        </TableSortLabel>
                     </StyledTableCell>
                 ))}
             </TableRow>

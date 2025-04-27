@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import {
     Box,
     CircularProgress,
@@ -12,9 +12,23 @@ import {
 } from "@mui/material";
 import TableHeader from "./TableHeader";
 import { StyledTableRow, StyledTableCell, StyledTooltip } from "./styled";
-import { getTableHeaders, formatCruxData } from "../../utils/helpers";
+import {
+    getTableHeaders,
+    formatCruxData,
+    getComparator,
+    formatMetricValue,
+} from "../../utils/helpers";
 
 const PerformanceTable = ({ isLoading, data }) => {
+    const [order, setOrder] = useState("");
+    const [orderBy, setOrderBy] = useState("");
+
+    const tableHeaders = useMemo(() => getTableHeaders(data ?? []), [data]);
+    const formattedData = useMemo(
+        () => formatCruxData(data ?? []).sort(getComparator(order, orderBy)),
+        [data, order, orderBy]
+    );
+
     if (isLoading) {
         return (
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -32,18 +46,35 @@ const PerformanceTable = ({ isLoading, data }) => {
         );
     }
 
-    const tableHeaders = useMemo(() => getTableHeaders(data), [data]);
-    const formattedData = useMemo(() => formatCruxData(data), [data]);
+    const handleRequestSort = (property) => {
+        const isAsc = orderBy === property && order === "asc";
+        const isDesc = orderBy === property && order === "desc";
+        if (isAsc) {
+            setOrder("desc");
+            setOrderBy(property);
+        } else if (isDesc) {
+            setOrder("");
+            setOrderBy("");
+        } else {
+            setOrder("asc");
+            setOrderBy(property);
+        }
+    };
 
     return (
         <Paper sx={{ width: "100%" }}>
-            <TableContainer sx={{ maxHeight: 500 }}>
+            <TableContainer sx={{ maxHeight: 700 }}>
                 <Table
                     stickyHeader
                     sx={{ minWidth: 700 }}
                     aria-label="sticky table"
                 >
-                    <TableHeader tableHeaders={tableHeaders} />
+                    <TableHeader
+                        tableHeaders={tableHeaders}
+                        order={order}
+                        orderBy={orderBy}
+                        onRequestSort={handleRequestSort}
+                    />
 
                     <TableBody>
                         {formattedData?.map((row, index) => (
@@ -65,7 +96,7 @@ const PerformanceTable = ({ isLoading, data }) => {
                                                 </Button>
                                             </StyledTooltip>
                                         ) : (
-                                            cell.value
+                                            formatMetricValue(row, cell.value)
                                         )}
                                     </StyledTableCell>
                                 ))}
